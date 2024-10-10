@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Disclosure, DisclosureButton, Menu } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import AuthForm from "../components/AuthForm";
+
 
 const navigation = [
   { name: 'Usuario', href: '/', current: false },
@@ -15,6 +17,7 @@ function classNames(...classes) {
 export default function NavbarDefault() {
   const location = useLocation();
   const [currentPath, setCurrentPath] = useState(location.pathname);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false); // Estado para abrir o cerrar el modal
 
   useEffect(() => {
     setCurrentPath(location.pathname);
@@ -35,7 +38,7 @@ export default function NavbarDefault() {
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
               <img
-                alt="Your Company"
+                alt="EasyScooter"
                 src="src/assets/logo.png"
                 className="h-8 w-auto"
               />
@@ -105,11 +108,35 @@ export default function NavbarDefault() {
                     </Link>
                   );
                 })}
+
+                {/* Botón de Login */}
+                <button
+                  className="text-gray-800 hover:bg-claro hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  onClick={() => setIsAuthModalOpen(true)}
+                >
+                  Login
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modal flotante de autenticación */}
+      {isAuthModalOpen && (
+        <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-6 relative w-full max-w-md">
+            {/* Aquí se pasa la función de cierre al AuthForm */}
+            <AuthForm onClose={() => setIsAuthModalOpen(false)} />
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              onClick={() => setIsAuthModalOpen(false)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </Disclosure>
   );
 }

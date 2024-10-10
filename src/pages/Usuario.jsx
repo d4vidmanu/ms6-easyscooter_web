@@ -1,3 +1,5 @@
+import AuthForm from "../components/AuthForm";
+
 const Usuario = () => {
     return (
         <div>
