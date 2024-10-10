@@ -111,7 +111,7 @@ const ViajeForm = () => {
         <button
           type="submit"
           className={`w-full py-2 px-4 rounded ${
-            loading ? "bg-gray-500" : "bg-medio hover:bg-oscuro"
+            loading ? "bg-gray-500" : "bg-medio hover:bg-os"
           } text-white`}
           disabled={loading}
         >
