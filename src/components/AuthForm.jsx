@@ -19,14 +19,21 @@ const AuthForm = ({ onClose }) => {
       if (isLogin) {
         // Proceso de Login
         const response = await axios.post(`${API_BASE_URL}/login`, { email, password });
-        const { user_id } = response.data;
-        alert('Login exitoso');
-
-        // Guardar el user_id en localStorage
-        localStorage.setItem('user_id', user_id);
-
-        // Cerrar el formulario al ser exitoso
-        onClose();
+        
+        // La API devuelve `id` en lugar de `user_id`
+        const { id } = response.data;
+        
+        if (id) {
+          alert('Login exitoso');
+          
+          // Guardar el id en localStorage como user_id
+          localStorage.setItem('user_id', id);
+          
+          // Cerrar el formulario al ser exitoso
+          onClose();
+        } else {
+          setError('No se recibió el ID de usuario.');
+        }
       } else {
         // Proceso de Register
         if (password !== confirmPassword) {
@@ -34,14 +41,21 @@ const AuthForm = ({ onClose }) => {
           return;
         }
         const response = await axios.post(`${API_BASE_URL}/register`, { name, email, password });
-        const { user_id } = response.data;
-        alert('Registro exitoso');
-
-        // Guardar el user_id en localStorage
-        localStorage.setItem('user_id', user_id);
-
-        // Cerrar el formulario al ser exitoso
-        onClose();
+        
+        // La API devuelve `id` en lugar de `user_id`
+        const { id } = response.data;
+        
+        if (id) {
+          alert('Registro exitoso');
+          
+          // Guardar el id en localStorage como user_id
+          localStorage.setItem('user_id', id);
+          
+          // Cerrar el formulario al ser exitoso
+          onClose();
+        } else {
+          setError('No se recibió el ID de usuario.');
+        }
       }
     } catch (error) {
       console.error(error);
